@@ -2,10 +2,19 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class ToolTipSystem : MonoBehaviour
 {
-
+#if UNITY_EDITOR
+    [MenuItem("GameObject/UI/ToolTip System")]
+    public static void AddLinearProgressBar()
+    {
+        var obj = Instantiate(Resources.Load<GameObject>("UI/ToolTip Canvas"));
+    }
+#endif
     private static ToolTipSystem _current;
 
     public ToolTip ToolTip;

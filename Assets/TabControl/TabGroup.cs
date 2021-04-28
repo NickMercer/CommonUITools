@@ -2,9 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class TabGroup : MonoBehaviour
 {
+#if UNITY_EDITOR
+    [MenuItem("GameObject/UI/Tab Control")]
+    public static void AddLinearProgressBar()
+    {
+        var obj = Instantiate(Resources.Load<GameObject>("UI/Tab Control"));
+        obj.transform.SetParent(Selection.activeGameObject.transform, false);
+    }
+#endif
+
     public List<TabButton> TabButtons;
     public Sprite TabIdle;
     public Sprite TabHovered;
