@@ -33,13 +33,12 @@ public class ToolTip : MonoBehaviour
 
         var position = Input.mousePosition;
 
-        var pivotX = Screen.width - position.x > rectTransform.rect.width + ScreenEdgePadding ? 0 : 1;
-        var pivotY = Screen.height - position.y > rectTransform.rect.height + ScreenEdgePadding ? 0 : 1;
+        var pivotX = Screen.width > position.x + rectTransform.rect.width + ScreenEdgePadding ? 0 : 1;
+        var pivotY = position.y < rectTransform.rect.height + ScreenEdgePadding ? 0 : 1;
 
         rectTransform.pivot = new Vector2(pivotX, pivotY);
         transform.position = position;
     }
-
 
     public void SetText(string content, string header = "")
     {

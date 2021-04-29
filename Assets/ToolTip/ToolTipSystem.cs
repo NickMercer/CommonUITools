@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -33,11 +34,9 @@ public class ToolTipSystem : MonoBehaviour
     public static void Show(string content, string header = "")
     {
         _current.ToolTip.SetText(content, header);
-        if (_fadeOutCoroutine != null)
-        {
-            _current.StopCoroutine(_fadeOutCoroutine);
-        }
-        _fadeInCoroutine = _current.StartCoroutine(GrowIn());
+        _current.ToolTip.gameObject.SetActive(true);
+        _current.ToolTip.transform.localScale = new Vector3(0, 0, 0);
+        _current.ToolTip.transform.DOScale(1f, 0.2f);
     }
 
     private static IEnumerator GrowIn()
@@ -54,11 +53,7 @@ public class ToolTipSystem : MonoBehaviour
 
     public static void Hide()
     {
-        if(_fadeInCoroutine != null)
-        {
-            _current.StopCoroutine(_fadeInCoroutine);
-        }
-        _fadeOutCoroutine = _current.StartCoroutine(ShrinkOut());
+        DOTween.Sequence().Append(_current.ToolTip.transform.DOScale(0f, 0.2f / _current.CloseSpeedFactor)).AppendCallback(() => { _current.ToolTip.gameObject.SetActive(false); });
     }
 
     private static IEnumerator ShrinkOut()
